@@ -33,24 +33,25 @@ public class PlayerMovement : MonoBehaviour
         movementInput = playerInput.Player.Move.ReadValue<Vector2>();
         rotationInput = playerInput.Player.Rotation.ReadValue<Vector2>();
 
-        move = new Vector3(movementInput.y, 0f, -movementInput.x);
+        move = new Vector3(movementInput.x, 0f, movementInput.y);
+        rotate = new Vector3(0f, -rotationInput.y, 0f);
 
         if (movementInput != Vector2.zero)
         {
-            Vector3 displacement = (transformPlayer.right * movementInput.x + transformPlayer.forward * movementInput.y);
+            //Vector3 displacement = (transformPlayer.right * movementInput.x + transformPlayer.forward * movementInput.y);
             //controller.Move(move * Time.deltaTime);
-            controller.Move(displacement * Time.deltaTime);
+            controller.Move(move * Time.deltaTime);
         }
 
         if(rotationInput != Vector2.zero)
         {
-            transformPlayer.Rotate(Vector3.forward, rotationInput.y * Time.deltaTime * rightJoystickSensibility);
+            transformPlayer.Rotate(rotate, Time.deltaTime * rightJoystickSensibility);
 
-            yRotation -= rotationInput.y * .1f;
+            /*yRotation -= rotationInput.y * .1f;
             yRotation = Mathf.Clamp(yRotation, -40f, 60f);
             Vector3 targetRotation = transformPlayer.eulerAngles;
             targetRotation.x = yRotation;
-            transformPlayer.eulerAngles = targetRotation;
+            transformPlayer.eulerAngles = targetRotation;*/
         }
     }
 }
